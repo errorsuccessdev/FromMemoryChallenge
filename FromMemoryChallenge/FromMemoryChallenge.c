@@ -24,16 +24,14 @@ int main()
     // is it Unix time or something else?
     srand((int) time(0));
 
-    // Suspicious...
+    // TODO: Does this ever return 10?
     int answer = (rand() % GAME_MAX_NUMBER) + 1;
-
     char buffer[MAX_STRING_LEN];
 
-    // TODO: Way to exit the game
     while (1)
     {
         printf(
-            "Pick a number between %d and %d: ",
+            "Pick a number between %d and %d, or press q to quit: ",
             GAME_MIN_NUMBER,
             GAME_MAX_NUMBER
         );
@@ -44,10 +42,16 @@ int main()
         );
 
         // Research: Is there a better way to handle this?
-        buffer[MAX_STRING_LEN - 1] = 0;
+        buffer[MAX_STRING_LEN - 1] = '\0';
 
-        int guess = validateInput(buffer);
+        // If the user has pressed 'q', quit immediately
+        if (buffer[0] == 'q' && buffer[1] == '\n')
+        {
+            break;
+        }
         
+        int guess = validateInput(buffer);
+
         // If their guess is not valid, prompt them again immediately
         if (guess == 0)
         {
