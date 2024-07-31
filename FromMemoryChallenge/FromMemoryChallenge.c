@@ -5,6 +5,7 @@
 // Next: random number guesser game.
 
 #include <stdio.h>
+#include <time.h>
 
 // Research: Is this the bad stdlib?
 #include <stdlib.h>
@@ -15,15 +16,18 @@
 #define GAME_MIN_NUMBER 1
 #define GAME_MAX_NUMBER 10
 
-// Why no bools in C? :( Because I need to git gud.
-
 int validateInput(char* input);
 
 int main()
 {
+    // Research: What "time" does this return on Windows? 
+    // is it Unix time or something else?
+    srand((int) time(0));
+
+    // Suspicious...
+    int answer = (rand() % GAME_MAX_NUMBER) + 1;
+
     char buffer[MAX_STRING_LEN];
-    int guess = 0;
-    int answer = 6;
 
     // TODO: Way to exit the game
     while (1)
@@ -42,7 +46,7 @@ int main()
         // Research: Is there a better way to handle this?
         buffer[MAX_STRING_LEN - 1] = 0;
 
-        guess = validateInput(buffer);
+        int guess = validateInput(buffer);
         
         // If their guess is not valid, prompt them again immediately
         if (guess == 0)
